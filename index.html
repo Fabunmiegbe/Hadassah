@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hadassah | Zobo, Ponmo, Tiger Nut, Plantain Chips and Fabric</title>
+<meta name="description" content="Pick what you want from Hadassah and send your order on WhatsApp. No sign up needed.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config={theme:{extend:{colors:{cocoa:'#3b1f0b',hib:'#9b1c31',leaf:'#2f6b2f',plan:'#f2b705',sand:'#f6f1ea'},fontFamily:{display:['Bricolage Grotesque','sans-serif'],body:['Figtree','sans-serif']}}}}
+</script>
+<style>
+body{font-family:'Figtree',sans-serif;color:#3b1f0b}
+.f-display{font-family:'Bricolage Grotesque',sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+.drawer{transition:transform .25s ease}
+@media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+</style>
+</head>
+<body class="bg-white">
+
+<!-- STOREFRONT -->
+<div id="shop">
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-cocoa/10">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#" class="f-display font-extrabold text-2xl tracking-tight">Hadassah</a>
+      <button id="openCart" class="relative flex items-center gap-2 bg-cocoa text-white rounded-full px-4 py-2 text-sm font-bold">
+        My order <span id="cartCount" class="bg-plan text-cocoa rounded-full min-w-6 h-6 px-1.5 grid place-items-center text-xs">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+    <h1 class="f-display font-extrabold text-4xl sm:text-6xl leading-[1.05] max-w-3xl">Pick what you want. We reply on WhatsApp.</h1>
+    <p class="mt-4 text-lg max-w-xl text-cocoa/80">Zobo, ponmo, tiger nut, plantain chips and vintage fabric. Add items to your order and send it to us in one tap. No sign up, no payment online.</p>
+    <div id="tiles" class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"></div>
+  </section>
+
+  <main class="max-w-6xl mx-auto px-4 pb-16">
+    <div class="flex items-baseline justify-between mb-4">
+      <h2 id="listTitle" class="f-display font-extrabold text-2xl">All products</h2>
+      <span id="listCount" class="text-sm text-cocoa/60"></span>
+    </div>
+    <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+    <p id="empty" class="hidden py-16 text-center text-cocoa/70">Nothing here yet. Check back soon or message us on WhatsApp to ask what is available.</p>
+  </main>
+
+  <footer class="bg-cocoa text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between">
+      <div>
+        <p class="f-display font-extrabold text-xl">Hadassah</p>
+        <p class="text-white/70 text-sm mt-1">Food, drinks and fabric. Order by WhatsApp or call.</p>
+      </div>
+      <div class="text-sm space-y-1">
+        <a class="block font-bold underline" href="https://wa.me/2349020056993">WhatsApp / call: +234 902 005 6993</a>
+        <a class="block text-white/80 underline" href="tel:+2348133940941">Fabric line: +234 813 394 0941</a>
+      </div>
+    </div>
+  </footer>
+
+  <a id="floatWa" href="https://wa.me/2349020056993?text=Hello%20Hadassah%2C%20I%20have%20a%20question." class="fixed bottom-4 right-4 z-20 bg-leaf text-white rounded-full px-5 py-3 font-bold shadow-lg text-sm">Chat on WhatsApp</a>
+
+  <!-- CART DRAWER -->
+  <div id="scrim" class="fixed inset-0 bg-black/40 z-40 hidden"></div>
+  <aside id="drawer" class="drawer fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 translate-x-full flex flex-col" aria-label="My order">
+    <div class="p-4 border-b border-cocoa/10 flex items-center justify-between">
+      <h2 class="f-display font-extrabold text-xl">My order</h2>
+      <button id="closeCart" class="text-sm font-bold underline">Close</button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+    <div class="p-4 border-t border-cocoa/10 space-y-3">
+      <input id="custName" placeholder="Your name (optional)" class="w-full border border-cocoa/30 rounded-lg px-3 py-2">
+      <input id="custNote" placeholder="Delivery area or note (optional)" class="w-full border border-cocoa/30 rounded-lg px-3 py-2">
+      <div class="flex justify-between font-bold"><span>Total</span><span id="cartTotal">₦0</span></div>
+      <button id="sendWa" class="w-full bg-leaf text-white font-bold rounded-full py-3 disabled:opacity-40">Send order on WhatsApp</button>
+      <p class="text-xs text-cocoa/60">This opens WhatsApp with your order filled in. We confirm price and delivery with you there.</p>
+    </div>
+  </aside>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="hidden min-h-screen bg-sand">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="f-display font-extrabold text-3xl">Hadassah admin</h1>
+      <div class="flex gap-4 text-sm font-bold"><a href="#" class="underline">View shop</a><button id="logout" class="underline hidden">Log out</button></div>
+    </div>
+
+    <div id="setupNotice" class="hidden bg-white border-l-4 border-hib p-4 rounded mb-6 text-sm">
+      Firebase is not connected yet. Paste your Firebase config into the <code>firebaseConfig</code> object at the top of the script in this file, then reload. Until then the shop shows sample products.
+    </div>
+
+    <form id="loginForm" class="hidden bg-white rounded-xl p-5 max-w-sm space-y-3">
+      <h2 class="font-bold text-lg">Admin login</h2>
+      <input id="email" type="email" placeholder="Email" required class="w-full border border-cocoa/30 rounded-lg px-3 py-2">
+      <input id="password" type="password" placeholder="Password" required class="w-full border border-cocoa/30 rounded-lg px-3 py-2">
+      <p id="loginErr" class="text-hib text-sm"></p>
+      <button class="w-full bg-cocoa text-white font-bold rounded-full py-2.5">Log in</button>
+    </form>
+
+    <div id="panel" class="hidden space-y-8">
+      <form id="addForm" class="bg-white rounded-xl p-5 grid sm:grid-cols-2 gap-3">
+        <h2 class="font-bold text-lg sm:col-span-2">Add a product</h2>
+        <input id="pName" placeholder="Product name" required class="border border-cocoa/30 rounded-lg px-3 py-2">
+        <select id="pCat" class="border border-cocoa/30 rounded-lg px-3 py-2"></select>
+        <input id="pPrice" type="number" min="0" placeholder="Price in naira" required class="border border-cocoa/30 rounded-lg px-3 py-2">
+        <input id="pUnit" placeholder="Sold per (e.g. bottle, pack, 1kg, 6 yards)" class="border border-cocoa/30 rounded-lg px-3 py-2">
+        <textarea id="pDesc" rows="2" placeholder="Short description (optional)" class="sm:col-span-2 border border-cocoa/30 rounded-lg px-3 py-2"></textarea>
+        <label class="sm:col-span-2 text-sm">Photo
+          <input id="pImg" type="file" accept="image/*" class="block mt-1 w-full text-sm">
+        </label>
+        <p id="addMsg" class="sm:col-span-2 text-sm text-leaf"></p>
+        <button class="sm:col-span-2 bg-cocoa text-white font-bold rounded-full py-2.5">Save product</button>
+      </form>
+
+      <div>
+        <h2 class="font-bold text-lg mb-3">Your products</h2>
+        <div id="adminList" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,addDoc,deleteDoc,updateDoc,doc,onSnapshot,query,orderBy} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* 1. PASTE YOUR FIREBASE CONFIG HERE (Firebase console > Project settings > Your apps > Web) */
+const firebaseConfig={
+  apiKey:"AIzaSyCRezbXv1cUwJhWIrQhG38v2Mlihw9yC_k",
+  authDomain:"hadassah-65a53.firebaseapp.com",
+  projectId:"hadassah-65a53",
+  storageBucket:"hadassah-65a53.firebasestorage.app",
+  messagingSenderId:"979910249991",
+  appId:"1:979910249991:web:3739addadd32e3bf04a4a2",
+  measurementId:"G-1NCLDQ2GKY"
+};
+/* 2. Your WhatsApp number in international format, no plus sign */
+const WA="2349020056993";
+
+const CATS=[
+ {id:"zobo",name:"Zobo",bg:"#9b1c31",fg:"#fff",icon:"🍹"},
+ {id:"ponmo",name:"Ponmo",bg:"#7a4a21",fg:"#fff",icon:"🥘"},
+ {id:"tigernut",name:"Tiger nut",bg:"#d9b98b",fg:"#3b1f0b",icon:"🌰"},
+ {id:"plantain",name:"Plantain chips",bg:"#f2b705",fg:"#3b1f0b",icon:"🍌"},
+ {id:"kulikuli",name:"Kuli kuli",bg:"#c26a2c",fg:"#fff",icon:"🥜"},
+ {id:"fabric",name:"Vintage fabric",bg:"#1f5f8b",fg:"#fff",icon:"🧵"}
+];
+const catOf=id=>CATS.find(c=>c.id===id)||CATS[0];
+const naira=n=>"₦"+Number(n||0).toLocaleString("en-NG");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=id=>document.getElementById(id);
+
+const configured=!!firebaseConfig.apiKey;
+let products=[],cart={},filter="all",db,auth;
+
+const SAMPLE=[
+ {id:"s1",name:"Zobo fruit drink (low sugar)",category:"zobo",price:1500,unit:"bottle",desc:"Hibiscus, ginger, cloves and fruits. Best served chilled.",inStock:true},
+ {id:"s2",name:"Ponmo (cleaned)",category:"ponmo",price:3000,unit:"pack",desc:"",inStock:true},
+ {id:"s3",name:"Tiger nut drink",category:"tigernut",price:1500,unit:"bottle",desc:"",inStock:true},
+ {id:"s4",name:"Crunchy plantain chips",category:"plantain",price:1000,unit:"pack",desc:"",inStock:true},
+ {id:"s5",name:"Crunchy kuli kuli",category:"kulikuli",price:1000,unit:"pack",desc:"",inStock:true},
+ {id:"s6",name:"Vintage tie-dye fabric",category:"fabric",price:12000,unit:"6 yards",desc:"",inStock:true}
+];
+
+/* ---------- Data ---------- */
+if(configured){
+  const app=initializeApp(firebaseConfig);
+  db=getFirestore(app);auth=getAuth(app);
+  onSnapshot(query(collection(db,"products"),orderBy("createdAt","desc")),snap=>{
+    products=snap.docs.map(d=>({id:d.id,...d.data()}));renderAll();
+  },()=>{products=SAMPLE;renderAll();});
+}else{products=SAMPLE;}
+
+/* ---------- Shop ---------- */
+function renderTiles(){
+  const all=`<button data-cat="all" class="tile rounded-xl p-3 text-left border-2 ${filter==="all"?"border-cocoa bg-cocoa text-white":"border-cocoa/15"}"><span class="block text-2xl">🛍️</span><span class="font-bold text-sm">Everything</span></button>`;
+  $("tiles").innerHTML=all+CATS.map(c=>`<button data-cat="${c.id}" class="tile rounded-xl p-3 text-left border-2" style="background:${c.bg};color:${c.fg};border-color:${filter===c.id?"#3b1f0b":"transparent"}"><span class="block text-2xl">${c.icon}</span><span class="font-bold text-sm">${c.name}</span></button>`).join("");
+  document.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{filter=b.dataset.cat;renderAll();document.getElementById("listTitle").scrollIntoView({behavior:"smooth",block:"start"});});
+}
+function renderGrid(){
+  const list=products.filter(p=>filter==="all"||p.category===filter);
+  $("listTitle").textContent=filter==="all"?"All products":catOf(filter).name;
+  $("listCount").textContent=list.length+(list.length===1?" item":" items");
+  $("empty").classList.toggle("hidden",list.length>0);
+  $("grid").innerHTML=list.map(p=>{
+    const c=catOf(p.category),out=p.inStock===false,qty=cart[p.id]?.qty||0;
+    const img=p.image?`<img src="${p.image}" alt="${esc(p.name)}" class="w-full h-full object-cover" loading="lazy">`:`<div class="w-full h-full grid place-items-center text-5xl" style="background:${c.bg}">${c.icon}</div>`;
+    return `<article class="border border-cocoa/15 rounded-xl overflow-hidden flex flex-col ${out?"opacity-60":""}">
+      <div class="aspect-square bg-sand">${img}</div>
+      <div class="p-3 flex flex-col gap-1 flex-1">
+        <span class="text-xs font-bold rounded-full px-2 py-0.5 self-start" style="background:${c.bg};color:${c.fg}">${c.name}</span>
+        <h3 class="font-bold leading-snug">${esc(p.name)}</h3>
+        ${p.desc?`<p class="text-sm text-cocoa/70 line-clamp-2">${esc(p.desc)}</p>`:""}
+        <p class="mt-auto pt-2 font-extrabold">${naira(p.price)}<span class="text-xs font-normal text-cocoa/60">${p.unit?" / "+esc(p.unit):""}</span></p>
+        ${out?`<p class="text-sm font-bold text-hib">Sold out</p>`:qty?
+          `<div class="flex items-center justify-between bg-cocoa text-white rounded-full px-2 py-1"><button data-dec="${p.id}" class="w-8 h-8 text-lg" aria-label="Remove one">−</button><span class="font-bold">${qty}</span><button data-inc="${p.id}" class="w-8 h-8 text-lg" aria-label="Add one">+</button></div>`:
+          `<button data-add="${p.id}" class="bg-plan text-cocoa font-bold rounded-full py-2 text-sm">Add to order</button>`}
+      </div></article>`;
+  }).join("");
+}
+$("grid").onclick=e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.add||t.dataset.inc)change(t.dataset.add||t.dataset.inc,1);
+  if(t.dataset.dec)change(t.dataset.dec,-1);
+};
+function change(id,d){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  const q=(cart[id]?.qty||0)+d;
+  if(q<=0)delete cart[id];else cart[id]={qty:q};
+  renderGrid();renderCart();
+}
+function renderCart(){
+  const items=Object.keys(cart).map(id=>({p:products.find(x=>x.id===id),q:cart[id].qty})).filter(i=>i.p);
+  const count=items.reduce((a,i)=>a+i.q,0),total=items.reduce((a,i)=>a+i.q*Number(i.p.price||0),0);
+  $("cartCount").textContent=count;$("cartTotal").textContent=naira(total);$("sendWa").disabled=!count;
+  $("cartItems").innerHTML=items.length?items.map(({p,q})=>`<div class="flex items-center gap-3 border border-cocoa/10 rounded-lg p-2">
+    <div class="flex-1"><p class="font-bold text-sm">${esc(p.name)}</p><p class="text-xs text-cocoa/60">${naira(p.price)}${p.unit?" / "+esc(p.unit):""}</p></div>
+    <div class="flex items-center gap-1"><button data-dec="${p.id}" class="w-8 h-8 rounded-full border border-cocoa/30" aria-label="Remove one">−</button><span class="w-6 text-center font-bold">${q}</span><button data-inc="${p.id}" class="w-8 h-8 rounded-full border border-cocoa/30" aria-label="Add one">+</button></div></div>`).join("")
+    :`<p class="text-cocoa/60 text-center py-10">Your order is empty. Add something from the shop.</p>`;
+}
+$("cartItems").onclick=e=>{const t=e.target.closest("button");if(!t)return;change(t.dataset.inc||t.dataset.dec,t.dataset.inc?1:-1);};
+$("sendWa").onclick=()=>{
+  const items=Object.keys(cart).map(id=>({p:products.find(x=>x.id===id),q:cart[id].qty})).filter(i=>i.p);
+  if(!items.length)return;
+  const total=items.reduce((a,i)=>a+i.q*Number(i.p.price||0),0);
+  let m="Hello Hadassah, I would like to order:\n\n"+items.map(i=>`• ${i.q} x ${i.p.name}${i.p.unit?" ("+i.p.unit+")":""} @ ${naira(i.p.price)}`).join("\n")+`\n\nTotal: ${naira(total)}`;
+  if($("custName").value.trim())m+=`\nName: ${$("custName").value.trim()}`;
+  if($("custNote").value.trim())m+=`\nNote: ${$("custNote").value.trim()}`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(m)}`,"_blank");
+};
+const toggle=o=>{$("drawer").classList.toggle("translate-x-full",!o);$("scrim").classList.toggle("hidden",!o);};
+$("openCart").onclick=()=>toggle(true);$("closeCart").onclick=()=>toggle(false);$("scrim").onclick=()=>toggle(false);
+
+/* ---------- Admin ---------- */
+$("pCat").innerHTML=CATS.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+
+function resize(file,max=800){
+  return new Promise((res,rej)=>{
+    const img=new Image(),r=new FileReader();
+    r.onload=()=>{img.src=r.result;};r.onerror=rej;
+    img.onload=()=>{
+      const s=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement("canvas");c.width=img.width*s;c.height=img.height*s;
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      res(c.toDataURL("image/jpeg",.72));
+    };
+    r.readAsDataURL(file);
+  });
+}
+function renderAdminList(){
+  $("adminList").innerHTML=products.length?products.map(p=>`<div class="bg-white rounded-lg p-3 flex items-center gap-3">
+    <div class="w-12 h-12 rounded bg-sand overflow-hidden shrink-0">${p.image?`<img src="${p.image}" class="w-full h-full object-cover" alt="">`:""}</div>
+    <div class="flex-1 min-w-0"><p class="font-bold truncate">${esc(p.name)}</p><p class="text-xs text-cocoa/60">${catOf(p.category).name} · ${naira(p.price)}</p></div>
+    <button data-stock="${p.id}" class="text-xs font-bold border border-cocoa/30 rounded-full px-3 py-1">${p.inStock===false?"Mark in stock":"Mark sold out"}</button>
+    <button data-del="${p.id}" class="text-xs font-bold text-hib">Delete</button></div>`).join(""):`<p class="text-cocoa/60 text-sm">No products yet. Add your first one above.</p>`;
+}
+$("adminList").onclick=async e=>{
+  const t=e.target.closest("button");if(!t||!configured)return;
+  if(t.dataset.del&&confirm("Delete this product?"))await deleteDoc(doc(db,"products",t.dataset.del));
+  if(t.dataset.stock){const p=products.find(x=>x.id===t.dataset.stock);await updateDoc(doc(db,"products",p.id),{inStock:p.inStock===false});}
+};
+$("addForm").onsubmit=async e=>{
+  e.preventDefault();$("addMsg").textContent="Saving...";
+  try{
+    const f=$("pImg").files[0];
+    await addDoc(collection(db,"products"),{
+      name:$("pName").value.trim(),category:$("pCat").value,price:Number($("pPrice").value),
+      unit:$("pUnit").value.trim(),desc:$("pDesc").value.trim(),image:f?await resize(f):"",
+      inStock:true,createdAt:Date.now()});
+    e.target.reset();$("addMsg").textContent="Saved. It is now live on the shop.";
+  }catch(err){$("addMsg").textContent="Could not save: "+err.message;$("addMsg").className="sm:col-span-2 text-sm text-hib";}
+};
+$("loginForm").onsubmit=async e=>{
+  e.preventDefault();$("loginErr").textContent="";
+  try{await signInWithEmailAndPassword(auth,$("email").value,$("password").value);}
+  catch{$("loginErr").textContent="Wrong email or password.";}
+};
+$("logout").onclick=()=>signOut(auth);
+if(configured)onAuthStateChanged(auth,u=>{route(u);});
+
+/* ---------- Routing ---------- */
+function route(user){
+  const isAdmin=location.hash==="#admin";
+  $("shop").classList.toggle("hidden",isAdmin);$("admin").classList.toggle("hidden",!isAdmin);
+  if(!isAdmin)return;
+  $("setupNotice").classList.toggle("hidden",configured);
+  $("loginForm").classList.toggle("hidden",!configured||!!user);
+  $("panel").classList.toggle("hidden",!configured||!user);
+  $("logout").classList.toggle("hidden",!user);
+  renderAdminList();
+}
+function renderAll(){renderTiles();renderGrid();renderCart();route(auth?.currentUser);}
+window.addEventListener("hashchange",()=>route(auth?.currentUser));
+renderAll();
+</script>
+</body>
+</html>
